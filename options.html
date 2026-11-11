@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="dark light">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>免费版BookmarkHub 设置</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #212529;
+      --muted: #6c757d;
+      --border: #dee2e6;
+      --primary: #0d6efd;
+      --success: #198754;
+      --danger: #dc3545;
+      --card: #f8f9fa;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1e;
+        --fg: #f8f9fa;
+        --muted: #adb5bd;
+        --border: #495057;
+        --card: #2a2a2a;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 14px;
+    }
+    .container { max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 18px; display: flex; align-items: center; gap: 8px; }
+    h1 img { width: 28px; height: 28px; }
+    .free-tag { font-size: 11px; background: var(--success); color: #fff; border-radius: 4px; padding: 2px 6px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .card h2 { font-size: 14px; margin: 0 0 12px; color: var(--fg); }
+    .form-row { margin-bottom: 12px; }
+    label { display: block; margin-bottom: 4px; font-weight: 500; }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 13px;
+    }
+    input:focus { outline: none; border-color: var(--primary); }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .hint a { color: var(--primary); }
+    .check-row { display: flex; align-items: center; gap: 6px; }
+    .btn-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    button {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover { background: rgba(128,128,128,.12); }
+    button.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    button.primary:hover { opacity: .9; background: var(--primary); }
+    .msg { margin-top: 10px; font-size: 13px; min-height: 18px; }
+    .msg.ok { color: var(--success); }
+    .msg.err { color: var(--danger); }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 500; }
+    td.btn-cell { white-space: nowrap; }
+    td.btn-cell button { padding: 4px 10px; font-size: 12px; }
+    .desc-cell { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    details summary { cursor: pointer; font-size: 13px; color: var(--primary); }
+    details pre {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 12px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    code.inline { background: var(--card); border: 1px solid var(--border); border-radius: 3px; padding: 1px 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><img src="icons/48.png" alt="">免费版BookmarkHub <span class="free-tag">免费 · 无自动更新</span></h1>
+
+    <div class="card">
+      <h2>① GitHub Token（必填）</h2>
+      <div class="form-row">
+        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+        <div class="hint">
+          需要一个有 <b>gist 权限</b> 的 Personal Access Token（免费，存在你自己的浏览器账号里）。<br>
+          生成入口：<a href="https://github.com/settings/tokens/new?scopes=gist&description=免费版BookmarkHub" target="_blank">点我直达 GitHub Token 生成页（已勾选 gist）</a><br>
+          精确模式：Settings → Developer settings → Personal access tokens → Generate new token（classic），只勾 <b>gist</b> 一项即可。
+        </div>
+      </div>
+      <div class="btn-row">
+        <button id="btnCheckToken" class="primary">校验 Token</button>
+        <span class="msg" id="tokenMsg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>② Gist（选已有或新建）</h2>
+      <div class="form-row">
+        <label>Gist ID</label>
+        <input type="text" id="gistID" placeholder="一串32位的十六进制 ID，或点下方按钮选择/新建">
+        <div class="hint">建议专门建一个私有 Gist 用来存书签，别跟代码混用。</div>
+      </div>
+      <div class="form-row">
+        <label>书签文件名</label>
+        <input type="text" id="gistFileName" placeholder="BookmarkHub">
+        <div class="hint">Gist 里的文件名，默认 BookmarkHub。⚠️ 改名后缀要保留 .json 或纯文本均可，原版 BookmarkHub 的数据也能直接读。</div>
+      </div>
+      <div class="btn-row">
+        <button id="btnListGists">拉取我的 Gist 列表</button>
+        <button id="btnCreateGist">一键新建私有 Gist</button>
+      </div>
+      <div class="msg" id="gistMsg"></div>
+      <div id="gistTableWrap" style="margin-top:10px; display:none;">
+        <table>
+          <thead><tr><th>描述</th><th>文件</th><th>更新时间</th><th></th></tr></thead>
+          <tbody id="gistTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>③ 其他</h2>
+      <div class="form-row check-row">
+        <input type="checkbox" id="enableNotify">
+        <label for="enableNotify" style="margin:0;">同步完成后弹系统通知</label>
+      </div>
+    </div>
+
+    <div class="card" id="donateCard">
+      <h2>☕ 请作者喝杯咖啡（自愿）</h2>
+      <div class="hint" style="margin-bottom:12px;">
+        这插件完全免费、无广告、无追踪，书签数据全程只存在你自己的 Gist 里。<br>
+        如果它帮到了你，欢迎请作者喝杯咖啡 ☕
+      </div>
+      <div style="display:flex; gap:16px; justify-content:center;">
+        <div style="text-align:center;">
+          <img id="donateWechat" src="donate-wechat.png" alt="微信收款码" style="width:180px; height:auto; border:1px solid var(--border); border-radius:8px; display:block;">
+          <div class="hint" style="margin-top:4px;">微信扫码</div>
+        </div>
+        <div style="text-align:center;">
+          <img id="donateAlipay" src="donate-alipay.png" alt="支付宝收款码" style="width:180px; height:auto; border:1px solid var(--border); border-radius:8px; display:block;">
+          <div class="hint" style="margin-top:4px;">支付宝扫码</div>
+        </div>
+      </div>
+      <div class="btn-row" style="justify-content:center;">
+        <a id="donateLink" target="_blank" rel="noopener" style="padding:8px 18px; border:1px solid var(--border); border-radius:6px; font-size:13px; color:var(--fg); text-decoration:none; cursor:pointer;" onmouseover="this.style.background='rgba(128,128,128,.12)'" onmouseout="this.style.background=''">在爱发电支持作者 →</a>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="primary" id="btnSave">保存设置</button>
+      <span class="msg" id="saveMsg"></span>
+    </div>
+
+    <details style="margin-top:20px;">
+      <summary>数据格式说明（与原版 BookmarkHub 兼容）</summary>
+      <pre>{
+  "version": "1.0.0",
+  "createDate": 1699999999999,
+  "browser": "Mozilla/5.0 ...",
+  "bookmarks": [
+    {
+      "title": "ToolbarFolder",
+      "children": [
+        { "title": "GitHub", "url": "https://github.com" },
+        { "title": "工作", "children": [ ... ] }
+      ]
+    },
+    { "title": "UnfiledFolder", "children": [...] },
+    { "title": "MobileFolder", "children": [...] }
+  ]
+}</pre>
+      <div class="hint">
+        根文件夹命名约定：ToolbarFolder=书签栏 / UnfiledFolder=其他书签 / MobileFolder=手机书签 / MenuFolder=Firefox菜单栏。<br>
+        原版 BookmarkHub 写入 Gist 的数据就是长这样，所以两边可以混用、互相同步。
+      </div>
+    </details>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

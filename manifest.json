@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extensionName__",
+  "version": "1.0.6",
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "zh_CN",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "permissions": ["storage", "bookmarks", "notifications"],
+  "host_permissions": [
+    "https://api.github.com/*",
+    "https://gist.githubusercontent.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "免费版BookmarkHub"
+  },
+  "options_ui": {
+    "open_in_tab": false,
+    "page": "options.html"
+  }
+}

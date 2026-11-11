@@ -1,0 +1,6 @@
+# 发布包不进库
+*.zip
+
+# 系统垃圾
+Thumbs.db
+.DS_Store
