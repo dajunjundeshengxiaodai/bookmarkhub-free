@@ -95,6 +95,24 @@
       word-break: break-all;
     }
     code.inline { background: var(--card); border: 1px solid var(--border); border-radius: 3px; padding: 1px 4px; font-size: 12px; }
+    /* 捐赠码：统一宽高比，图片等比缩放居中，宽窄图视觉对齐不变形 */
+    .qr-frame {
+      width: 200px;
+      aspect-ratio: 3 / 4;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .qr-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -156,13 +174,17 @@
         这插件完全免费、无广告、无追踪，书签数据全程只存在你自己的 Gist 里。<br>
         如果它帮到了你，欢迎请作者喝杯咖啡 ☕
       </div>
-      <div style="display:flex; gap:16px; justify-content:center;">
+      <div style="display:flex; gap:16px; justify-content:center; align-items:flex-start;">
         <div style="text-align:center;">
-          <img id="donateWechat" src="donate-wechat.png" alt="微信收款码" style="width:180px; height:auto; border:1px solid var(--border); border-radius:8px; display:block;">
+          <div class="qr-frame">
+            <img id="donateWechat" src="donate-wechat.png" alt="微信收款码">
+          </div>
           <div class="hint" style="margin-top:4px;">微信扫码</div>
         </div>
         <div style="text-align:center;">
-          <img id="donateAlipay" src="donate-alipay.png" alt="支付宝收款码" style="width:180px; height:auto; border:1px solid var(--border); border-radius:8px; display:block;">
+          <div class="qr-frame">
+            <img id="donateAlipay" src="donate-alipay.png" alt="支付宝收款码">
+          </div>
           <div class="hint" style="margin-top:4px;">支付宝扫码</div>
         </div>
       </div>
